@@ -178,3 +178,56 @@ Once we've figured out exactly how much each key vector should give to the query
 get a full picture this will be our output vector we get a full picture of how much attention to pay to each other token in the sequence. And so this is where the notion of attention comes from, is that the value in each of the parts of the output vector the value in each of the parts of the output vector tells us how much attention we should be paying to each token relative to the current token of focus.
 
 # Building Base/Foundation Models (Training transformers, what does it take?)
+We've seen now, all of the different building blocks that go into the construction of creating a Transformer large language model. You're then probably wondering how do we build the actual model to be useful, how do we train it and construct it, and what pieces do we need to actually get everything working. In this section, we're
+going to go through all of the different components. Including the data, the compute, and the training procedures that you'll need to follow if you want to pursue training your own large language model from scratch.
+
+## Foundation Model Training - Getting Started (Choosing the right options to build your model.)
+One thing to keep in mind, you may hear the terms foundation or base model interchangeably throughout this course and in the wider literature. These refer to large language models that are trained from randomized weights into just predicting the next word. Now you sometimes see foundation models or base models behave in ways that you might think oh that's not actually what I want my model to do and that's just because what happens when we train a foundation model or a base model is it's understanding fundamentally the syntax and potentially the semantics of what language contains.
+
+So you might ask a foundation model or a base model what's the capital of France and rather than answering with the actual answer that you'd expect it might then ask what's the capital of Germany and that's because it's more often than not seeing a list of questions rather than a question answer in the training set.
+
+We'll talk about the different types of training sets in just a moment but keep in mind that for task specific performance you'll almost always need to fine tune your model. This requires a much smaller amount of training data and is usually recommended for most people, as they'll take a Large Language model that's been pre-trained
+or produced a foundation version and then they want to fine-tune on top of that.
+
+However for those of you brave enough to get started training your own foundation model, let's look at some of the different options that you'll need to go through.
+
+You'll want to think about the model architecture, whether it's a decoder an encoder or a combination of the two, and you will also want to think about the type of tasks that you want the fine-tuned version of this foundation model to perform, as well. This will inform some of the decisions that you make with the structure of your model and also the different types of data you'll also want to make sure that you think about how big you want the model to be how rich you want its representation of language to be and needs to be embedding Dimensions the number of blocks Etc.
+
+And then the type of data and the availability of data that you have and the wrangling of that data most importantly is going to be one of the most difficult things for you to overcome.
+
+Finally actually getting the compute resources, both the amount of time that you have allocated to train the model and the hardware that's available, which is not something you can take for granted these days as GPUs are quite hard to come by, particularly the ones that are needed for foundation model training.
+
+# Foundation Model Training - Architecture (Which transformer flavor is right?)
+Let's think about the different types of architectures. We've seen already the encoder decoder model that Google produced in the attention is all you need paper and the
+different generations that came after that such as BERT, GPT, and T5 which we haven't spoken about but we'll look at more later in the course.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/fc8495f4-8501-4afc-a67d-7cac01293cf2)
+
+Depending on the tasks that you want whether it's classification maybe you'll go with something like BERT if it's generation you'll probably want something like GPT,
+translation you'll probably want an encoded decoder like T5.
+You'll also want to think about the numbers of layers that you have and the context size that you can deal with. 
+
+# Foundation Model Training - Data (It’s all about the data)
+Most importantly the data is something that you'll have to fight for. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/93a35d3b-d530-4e0d-b5d1-609588e683d5)
+
+There are a number of publicly available data sets such as the well-known **Pile** data set which is a combination of different openly available text resources. However if you train the same model that someone else has trained on the same data although you're not going to get much of an advantage and you're better off just downloading the weights of that model. You'll want to start at least with something like the **Pile** to get a good understanding of, at least in this case the English language, but language in general.
+
+You then may have proprietary or just curated data sets of your own that are more specific and might include things like transcriptions, digitized text, code examples, and other sources that you think is valuable for this foundation model to be trained on.
+
+## Foundation Model Training - Training (Optimizing LLM Losses)
+Once you have all of your data and your architecture and the compute ready to go then you can breathe a sigh of relief as now you're just back to training a regular deep learning model.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/6ddf809e-5cf5-4339-9217-9d14b1d725f9)
+
+Large language models train more or less like every other deep learning model except they're massive, they take many weeks and months to train to a reasonable state and they often require hundreds of GPUs to do so.
+However they often rely on fairly typical loss functions like cross entropy and optimizers like AdamW. Though new optimizers are being researched and developed by the community day by day.
+Now that your model's been fully trained you might then wonder what do you do now.
+
+## Now what? (What do you use a foundation LLM for?)
+Well odds are if you start to interact with your large language model you'll find that it suffers from alignment problems. If you're unfamiliar with the alignment problem in large language models, in essence it boils down to just a few components.
+Is the model accurate. Does the model behave well for what we want it to do, is it toxic, does it show negative biases or any sort of biases that would detract from the performance that we want. And does it hallucinate, does it make up situations and examples when we need it to be as factual as possible or maybe you want it to be as creative as possible and it's just not very good at doing that either way the problem of alignment is still an ongoing area where different types of tools and procedures are being investigated.
+
+Really what you want to do after you've built your foundation model is to look at fine tuning methods.
+
