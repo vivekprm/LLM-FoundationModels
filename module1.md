@@ -81,3 +81,56 @@ Once we've got our tokens enriched to word embeddings with positional encodings 
 At the output of the Transformer we have our vocabulary and a linear neural network that selects, using the softmax function, which token is either the next token to be generated based on the sequence of vectors that we've been building up in our Transformer blocks, or it'll classify it using some classification scheme that we've developed for the particular application.
 
 Now there's a number of different ways that you can use the Transformer blocks that we've been describing in this section, and in the next section we'll talk about some of those different approaches. Those will include encoder models where we don't actually do any generation of new tokens they're decoder models where we only focus on generating the next token and then there are encoder-decoder models where we take one sequence in and output a completely different sequence based on the task.
+
+# Transformer Architectures
+Up until now we've been fairly generic about the type of architecture that a Transformer can take. We focused on what the Transformer blocks are, and what they're comprised of. However there's a lot of different ways we can construct a different type of Transformer by the way that we organize these Transformer blocks.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/0f9ed3ad-1da2-4dfd-bbfe-a66c81c390c1)
+
+We're going to look at the different types of common architectures that we see with Transformers and the different use cases and innovations that they require. If we take a look at the current state of the [Transformer family tree](https://github.com/Mooler0410/LLMsPracticalGuide/blob/main/imgs/qr_version.jpg?raw=true) it's pretty big and pretty messy. But we can separate these into three distinct categories. We have on the left here, encoder only models and we'll talk about what it means to encode with a Transformer in just a moment. 
+
+On the far right we have decoder only models and you'll see some familiar names there like Claude or GPT-4, and in the middle we have the encoder decoder models. And if you look carefully you'll see that we have a very familiar G letter representing Google for the encoded decoder models very prevalent in the middle. And there's a very good reason that Google is so prevalent in the encoder decoder model space.
+
+## The Original Transformer
+In the original Transformer paper titled "Attention is all you need", the researchers from Google presented an architecture based on an encoder decoder approach.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/5c751927-2826-4bcb-9eac-18c81e443299)
+
+The reason for this is that they wanted to do machine translation between English and German. The goal there was to input a sequence of English tokens and output a
+translated German sequence at the end.
+
+The way that they achieve this goal is by taking an encoder series of blocks, so these would be regular Transformer blocks as we've seen so far, they would put in the English tokens, transform them and prepare them in the way that we saw in the previous section, and then at the end of the Transformer blocks the vectors that we have at the output of the different sequence vectors that we produce after they've gone through the Transformer blocks are actually used for the attention mechanism in
+something called **cross-attention** for the decoder side of things that they presented in their model.
+
+Now the way that this would work is that the model would first look at the words that it had produced as the decoder side of things, and then when we move up to the point where cross attention is needed it would compare the word that it had at the middle of its Transformer block and look at the cross attention vectors from the encoder side of things.
+
+We'll look at how attention takes these different types of vectors and combines them together in just a moment, but you can think of it as first the encoder takes the English language and transforms it into some sort of enriched vector and then it uses those enriched vectors and learns how the German words relate to the English words to be translated.
+
+So encoder decoder models typically take one type of language task and convert it to a different type of language. This could be translation or conversion or it
+might be some kind of halfway in between such as taking input from English or natural language of some kind and outputting it as say code language, or it might be one programming language to another programming language or it might be summarization, there are a number of different use cases for encoder decoder models and they're based on the concept of cross attention we'll dive deeper into what cross attention is and how it can be used later on when we talk about the attention mechanism in detail.
+
+But essentially, what the encoder does is it provides an extra source of signal for the decoder so that it can achieve the task that it is given and that during back propagation it learns to rely on the signals from the encoder to achieve its task. The next part of the Transformer architecture family is the encoder model.
+
+Now Google also produced a second Transformer architecture a couple of years after the original Transformer was released and this was the bi-directional encoding representations from Transformers or BERT. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/124d7888-070e-4c73-abf7-1fcc3d8ad9fe)
+
+There were a couple of new innovations that BERT released with, one was segment embedding so you could take one sentence
+separate them with the [SEP] variable and then put in a second sequence or a second sentence and BERT would be able to compare the two sentences together The way they trained BERT was also different as they would intentionally mask different words into the sentence it would also allow you to incorporate next sentence prediction and
+by that it would be able to tell whether or not the next sentence preceded was preceded by the first sentence that it saw it could give a true or false whether or not the sequence the first sequence it saw led then to the second sequence or not.
+
+BERT was excellent for fine tuning and has been used and still dominates many of the state-of-the-art techniques for different types of natural language processing. BERT is excellent for things like question and answering, named entity recognition, and other more traditional types of natural language processing tasks.
+
+BERT is still in use today and is much more lightweight than some of the larger models that we typically see in the news.
+
+# Generating text with GPT
+Speaking of these types of models, the third type of architecture that was produced based on the Transformer architecture are known as the **decoder only models**, the most popular and well-known version of this is GPT **GPT: generative pre-trained Transformer** is a type of Transformer that, as the name suggests, generates new words. You've probably heard of the buzz term 'Generative AI' and GPT is the reason for that buzzword.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/a9d37a27-8524-4250-ae9a-4b3def68a1c6)
+
+**The whole aim of a decoder only model is to try and predict the next word based on the sequence that it's currently processing**. In GPT it'll take in all of the vectors that it's been working on and enriching and use the classification softmax layer at the end of the Transformer blocks to try and predict the next token or the
+next word.
+We've seen a huge amount of applications based on these GPT or decoder-based models and you'll be familiar with probably ChatGPT, Bard, Claude, LLama, MPT and the list goes on.
+
+# Important variables in Transformers
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/8939daaf-3aea-4408-8b59-b6071849a12c)
