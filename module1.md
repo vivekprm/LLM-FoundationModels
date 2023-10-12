@@ -306,77 +306,19 @@ This also meant that the team at OpenAI had to do a lot of work in deduplication
 
 For GPT-3 **WebText2** was used, which is even larger and more diverse in the original WebText data set. 
 
-if we look at the performance differences between GPT-2 and GPT-3 we can see that this new data set, even with the same number of parameters, enables GPT-3
-to perform much better on the tasks that
-it's given.
-As we move forward into the realm of
-large language models into the latter
-half of this decade we'll also see the
-need for new sources of data whether it
-come from video transcriptions or other
-synthetic data sources.
-So now that we've looked at how GPT went
-from GPT-1 to GPT-3 and all of the
-different innovations and changes that
-needed to take place let's take an
-overarching look of where we've come so
-far in learning about different
-Transformer architectures.
-We've seen the different types of
-architectures that you can create using
-your Transformer blocks these could be
-the encoder only models such as BERT
-decoder only models such as GPT and
-sequence to sequence Transformers like
-T5.
-Each of these have different pros and
-cons and depending on the task that you
-want to apply your large language model
-to and the resources that you have at
-hand, you may need to be strategic about
-which you which you choose
-while you may just run and
-put everything into GPT-4 or -5 and
-probably get some decent results that
-also costs a lot more both in compute
-security and other limitations that you
-may not be able to afford.
-If you're just looking at things like
-sentiment analysis or if you need to
-control the data or if you have a very
-small amount of compute you may be
-better suited at utilizing something
-like BERT or T5 instead.
-take some time when you can to have a
-look at the different pros and cons for
-each of these different Large Language
-model frameworks to see which one is
-best for you.
-So now we're at the end of Module 1.
-This module focused on Transformers and
-the building blocks that make up the
-different types of large language models
-that we see.
-We saw that they were built of these
-Transformer blocks and how the
-Transformer blocks combined the
-attention mechanism and position-wise
-feed forward neural networks to enrich
-the vectors that we give to them.
-Transformers can be both encoder models
-or decoder models and they can even be a
-combination of the two.
-We saw that the evolution of GPT from
-GPT-1 to GPT-4 required some slight changes
-in architecture and a lot of change in
-data.
-Keep in mind that while we want to train
-these models as base or foundation
-models, if we really want to make the
-most of them for the tasks that we have
-at hand we're going to need to do some
-sort of fine tuning so that we can
-achieve state-of-the-art performance.
-Now let's jump into the notebooks and
-look at how we can build our own mini
-Transformers from scratch.
+if we look at the performance differences between GPT-2 and GPT-3 we can see that this new data set, even with the same number of parameters, enables GPT-3 to perform much better on the tasks that it's given.
+As we move forward into the realm of large language models into the latter half of this decade we'll also see the need for new sources of data whether it come from video transcriptions or other synthetic data sources.
+
+# Comparing LLM Architectures
+So now that we've looked at how GPT went from GPT-1 to GPT-3 and all of the different innovations and changes that needed to take place let's take an overarching look of where we've come so far in learning about different Transformer architectures.
+
+## BERT vs. GPT vs. T5 : Which type of LLM is best?
+We've seen the different types of architectures that you can create using your Transformer blocks these could be the encoder only models such as BERT decoder only models such as GPT and sequence to sequence Transformers like T5.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/8039b1f7-12fb-4a11-976e-116064d2f99c)
+
+Each of these have different pros and cons and depending on the task that you want to apply your large language model to and the resources that you have at hand, you may need to be strategic about which you which you choose while you may just run and put everything into GPT-4 or -5 and probably get some decent results that also costs a lot more both in compute security and other limitations that you may not be able to afford.
+
+If you're just looking at things like sentiment analysis or if you need to control the data or if you have a very small amount of compute you may be better suited at utilizing something like **BERT or T5** instead. take some time when you can to have a look at the different pros and cons for each of these different Large Language
+model frameworks to see which one is best for you.
+
