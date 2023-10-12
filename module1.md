@@ -257,9 +257,126 @@ The different families that were built after that original GPT so this is GPT-2,
 GPT-1 started with just **12 Transformer blocks** each connecting to each other and passing those enriched vectors. GPT-2 increased the dimension size of the word embeddings to **1024** and also quadrupled the number of Transformer blocks. GPT-3 doubled the amount of Transformer blocks and also doubled the model embedding size as well.
 
 GPT-3 was truly transformative in its ability to perform few shot learning and complete tasks at a state-of-the-art level.
-The data was also something that changed as we went from the different families of GPT. the original GPT or GPT-1 was trained on something called the **Book Corpus**.
-GPT-1 had 117 million parameters more or less on par with the size of BERT which was also released around that time too.
 
-GPT-2, which came out one year later, was trained on a much larger data set called **WebText**. This text was gathered from the publicly addressable web, and also was the first time that we saw a Transformer model released in different sizes.
+## Generative Pre-trained Transformers (GPT): Generational Improvements
+The data was also something that changed as we went from the different families of GPT. the original GPT or GPT-1 was trained on something called the **Book Corpus**.
+GPT-1 (2018) had 117 million parameters more or less on par with the size of BERT which was also released around that time too.
+
+GPT-2, which came out one year later (2019), was trained on a much larger data set called **WebText**. This text was gathered from the publicly addressable web, and also was the first time that we saw a Transformer model released in different sizes.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/df797747-bde4-432b-8e2d-38d49f557d19)
+
 Starting with the 117 million parameter model with the same number of parameters as the original GPT all the way up to the 1.5 billion extra large version of GPT-2.
 GPT-3, which was released in 2020, was pre-trained on an even newer and larger data set **WebText2**, which incorporated 45 terabytes of text.
+
+GPT-3 (2020) started off with **175 billion parameters** and was found to be exceptional at few shot and zero shot learning capabilities. GPT-4, which we only know some rumored information about, was released in 2023.
+While OpenAI has not released any of the information to date on how GPT-4 is structured some estimates are that it is a number of smaller **220 billion parameter** models using a mixture of experts approach.
+
+Now we don't know if this is true or not but we will be covering what mixture of experts is in Module 3. 
+
+# GPT Architecture
+Let's look even deeper into the GPT architecture. So why do GPTs keep getting bigger every time we see GPT-1 , -2, -3 and -4 increase in size, this is largely because it has more and more layers while the model dimensions do get larger too they don't scale in quite the same way as the number of layers do.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/d521193c-015a-4816-bc7a-8c2dbf805899)
+
+Now the reason that we want more and more layers is because that allows the attention mechanism to focus on more and more aspects. When this works in conjunction with the position-wide feed forward neural network what we enable is conceptually within the model it's able to see more and more about the text.
+
+If you think about the convolutional neural networks, they started off looking at edges and then eventually as we get deeper into the layers they could look at more
+composite features, something akin to this is happening in attention.
+
+The early attention is looking at things like word order different parts of speech basic sentence structure, and then as we allow the neural network to reconfigure the vectors into a useful format for the attention block of the next Transformer block to pay attention to we're allowing the model to pay attention to different types of text and speech and so in the middle layers of attention in the middle numbers of blocks we can think of the model as being able to pay attention to things like meaning
+relationships between different phrases in the text rather than just within the specific sentences.
+
+And then at the last stages of the attentions in the Transformer blocks you can think of it as looking at the discourse the sentiment and complex long-range dependencies. When we think about how you interact with ChatGPT and other platforms today the context length is increasing more and more and with the number of
+layers also needs to increase so that it can pay attention to more of what's going on in the text and understand more richly what is being conveyed.
+
+## Why so many parameters?
+And so when we think about why we're getting so many parameters up to potentially a trillion parameters in GPT-4 this comes from the fact that the layers are increasing the model dimensionality is increasing and the number of attention heads as well there are some other factors and the attention heads per layer doesn't play a larger role as it perhaps could but the number of layers and the modal size play a huge role in both the neural network size and the size of the attention matrices.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/98c341f2-8552-435c-a56a-8276c956d547)
+
+## Training GPT
+So let's talk about how you might train GPT and focus a little more on that data as we mentioned before GPT-1 was trained on something called the Book Corpus which is comprised of 7000 unpublished books spanning various genres which has about 800 million words covering a wide range of topics and styles. If you download GPT-1 from something like Hugging Face and run it you'll notice that it has this kind of style in its output.
+
+You'll also notice that it tends to output more or less nonsense and that's just because GPT is very small and doesn't have quite the complexity that it's larger newer Generations have.
+
+GPT-2 was trained on something called **WebText**, and this was the first time that we saw a publicly crawled data set used in large language models. This is much larger than Book Corpus and as you can imagine it encompasses a much wider array of what people talk about on the internet. Instead of the 800 million words WebText is comprised of 45 terabytes of data.
+
+This also meant that the team at OpenAI had to do a lot of work in deduplication and filtering out web pages with low quality content. This is still a problem that exists today finding good sources of data and focusing on cleaning that data and making it making sure that it's the highest value data for the model.
+
+For GPT-3 **WebText2** was used, which is even larger and more diverse in the original WebText data set. 
+
+if we look at the performance differences between GPT-2 and GPT-3 we can see that this new data set, even with the same number of parameters, enables GPT-3
+to perform much better on the tasks that
+it's given.
+As we move forward into the realm of
+large language models into the latter
+half of this decade we'll also see the
+need for new sources of data whether it
+come from video transcriptions or other
+synthetic data sources.
+So now that we've looked at how GPT went
+from GPT-1 to GPT-3 and all of the
+different innovations and changes that
+needed to take place let's take an
+overarching look of where we've come so
+far in learning about different
+Transformer architectures.
+We've seen the different types of
+architectures that you can create using
+your Transformer blocks these could be
+the encoder only models such as BERT
+decoder only models such as GPT and
+sequence to sequence Transformers like
+T5.
+Each of these have different pros and
+cons and depending on the task that you
+want to apply your large language model
+to and the resources that you have at
+hand, you may need to be strategic about
+which you which you choose
+while you may just run and
+put everything into GPT-4 or -5 and
+probably get some decent results that
+also costs a lot more both in compute
+security and other limitations that you
+may not be able to afford.
+If you're just looking at things like
+sentiment analysis or if you need to
+control the data or if you have a very
+small amount of compute you may be
+better suited at utilizing something
+like BERT or T5 instead.
+take some time when you can to have a
+look at the different pros and cons for
+each of these different Large Language
+model frameworks to see which one is
+best for you.
+So now we're at the end of Module 1.
+This module focused on Transformers and
+the building blocks that make up the
+different types of large language models
+that we see.
+We saw that they were built of these
+Transformer blocks and how the
+Transformer blocks combined the
+attention mechanism and position-wise
+feed forward neural networks to enrich
+the vectors that we give to them.
+Transformers can be both encoder models
+or decoder models and they can even be a
+combination of the two.
+We saw that the evolution of GPT from
+GPT-1 to GPT-4 required some slight changes
+in architecture and a lot of change in
+data.
+Keep in mind that while we want to train
+these models as base or foundation
+models, if we really want to make the
+most of them for the tasks that we have
+at hand we're going to need to do some
+sort of fine tuning so that we can
+achieve state-of-the-art performance.
+Now let's jump into the notebooks and
+look at how we can build our own mini
+Transformers from scratch.
