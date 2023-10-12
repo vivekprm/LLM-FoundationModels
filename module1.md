@@ -134,3 +134,47 @@ We've seen a huge amount of applications based on these GPT or decoder-based mod
 
 # Important variables in Transformers
 ![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/8939daaf-3aea-4408-8b59-b6071849a12c)
+
+# Time to Pay Attention (The secret that unlocked the power of LLMs)
+One of the goals of this module is to understand how we can build and train our own base or foundation Transformers.
+
+However, before we get into that let's take a moment to talk about attention. It's one of the most important components of Transformers and something that can be quite complicated if you haven't seen something like it before. 
+
+## The inner workings of attention (Learning the weights of attention.)
+To start with let's think about how we can take the vector that we're working with, that's going to be the current token that we're looking, at so let's assume that we're in the first layer where we can directly correlate the input word embedding vector with the vector that we're going to talk about in attention here.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/ac431d0f-36ad-4cb0-a2dc-9e9cf471b7b1)
+
+Now attention is built out of three vector families: the query vector the key vector and the value vector.
+
+Now we actually have one query vector and that's going to relate to the current token that we're looking at in the sequence, we're going to have a number of key vectors, they're going to come from all of the vectors in the sequence, and we're also going to have a series of value vectors.
+
+We're going to use a matrix multiplication with the word vector or the enriched embedding vector if you like, multiplied by this query matrix to give us our query vector. All of the matrices, the query matrix, the key matrix, and the value matrix are comprised of weights that are learned during back propagation.
+
+The idea behind attention is that we use a single query vector and talk to all of the other key vectors that we generate in this from the sequence and we effectively ask it how much are you, the key vector, related to me, the query vector. We do this in parallel for all of the tokens in the sequence so every time we do the attention
+calculation we're focusing on our query vector and we're broadcasting the query vector to all of the keys, by that I mean the key vectors.
+
+What we're doing is we're asking how similar, how important is this key vector to the query vector. In the equation that you see here you can see we take the softmax of Q times K transpose. Now Q in this situation is the query vector and K is a matrix transposed here to make it so that we end up with another vector and we multiply that by the value vector.
+
+## The inner workings of attention (How do we calculate attention?)
+Let's take a look at what happens in this situation. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/699445c1-d9f8-4094-ae9d-a3191e28d279)
+
+So to calculate attention step one, we take our input vector, which if we're in the first layer is the word embedding vector with positional information, and we create three new types of vectors. We create the query vector, the key vectors. and the value vector.
+
+The query vector as I said before is just built from the current token, we then multiply that using a scaled dot product on the query vector to all of the key vectors and what this gives us are attention scores.
+
+We're going to have an attention score for each pair of the current query vector to each of the key vectors, so we'll end up with an attention score vector which is the same length as the query vector, which is the same length as the word embedding that we get from the token. This is another reason why the dimensionality of the model that we built, so if we remember from the previous sections video we talked about important variables for Transformers the modal dimension or the model size is
+very important here.
+
+The size of these vectors is the dimensionality of the model, so the query times key vectors gives us these attention weights and they're scaled from zero to one.
+And then we do a special type of multiplication so that for each position in our vector the attention weight is multiplied by the value of the value vector at each of those indices.
+So from zero to the size of the embedding we multiply a simple scalar product between the attention weight score at index zero with the value vector score at index zero and we do that for each of them. This then gives us a full output vector of the attention score for that particular token across the entire sequence.
+We'll take a moment to think about this one more time as attention can be somewhat complicated.
+
+Realistically you can think of this as some kind of filing cabinet and lookup system where we have our query which comes from the current token and we're looking through the files to see how well each of the different other files these are the key vectors have the information that we need that would be the value vector.
+Once we've figured out exactly how much each key vector should give to the query vector, and that's the attention weights, we then combine it all together so we
+get a full picture this will be our output vector we get a full picture of how much attention to pay to each other token in the sequence. And so this is where the notion of attention comes from, is that the value in each of the parts of the output vector the value in each of the parts of the output vector tells us how much attention we should be paying to each token relative to the current token of focus.
+
+# Building Base/Foundation Models (Training transformers, what does it take?)
