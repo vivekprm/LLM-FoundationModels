@@ -231,3 +231,35 @@ Is the model accurate. Does the model behave well for what we want it to do, is 
 
 Really what you want to do after you've built your foundation model is to look at fine tuning methods.
 
+# Generative Pretrained Transformer (A journey to discover how GPT-4 and ChatGPT were built.)
+As its name suggests, it's a generative model so it's a decoder model and it's a pre-trained Transformer, so that just means that it's been built and trained like we looked at in the previous section.
+
+In this section we're going to look at how we went from GPT-1 all the way up to GPT-4 and how ChatGPT works. 
+
+## The journey to ChatGPT
+ChatGPT was released in November of 2022 and **was a fine-tuned version of GPT-3 or GPT-3.5** depending on when you started using it.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/533a4bff-3ae9-4754-8ca7-b8c3ec44e970)
+
+ChatGPT was one of the first chat bots using a large language model as its base and received renown acclaim and usage being, as we said at the start of this module, the most adopted technology in human history. ChatGPT is an application of a decoder-based transformer model and let's see how we actually got to this point.
+
+## Generative Pre-trained Transformers (GPT): Decoder-based transformers
+The generative pre-trained Transformers or GPTs were a family of models that were researched and released to the wider community after the release of the attention is all you need paper by Google in 2018. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/d5ff1a84-f4b6-4cce-89f9-4a0bda8cc0e6)
+
+The first GPT model looked at the encoder decoder model of the attention is all you need paper and decided to just work on a decoder model so they were just looking at the right hand side version of the architecture.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/82490757-3697-4a7b-b38f-28d26153320f)
+
+The different families that were built after that original GPT so this is GPT-2, -3 and -4 have more or less relied on the same architecture but just in larger versions trained on even more data. Now there have been very important innovations and clever changes that have made the scaling up possible but in essence all of the infrastructure and architecture that we've been talking about have been exactly what they've used to build GPT-4 and ChatGPT.
+
+GPT-1 started with just **12 Transformer blocks** each connecting to each other and passing those enriched vectors. GPT-2 increased the dimension size of the word embeddings to **1024** and also quadrupled the number of Transformer blocks. GPT-3 doubled the amount of Transformer blocks and also doubled the model embedding size as well.
+
+GPT-3 was truly transformative in its ability to perform few shot learning and complete tasks at a state-of-the-art level.
+The data was also something that changed as we went from the different families of GPT. the original GPT or GPT-1 was trained on something called the **Book Corpus**.
+GPT-1 had 117 million parameters more or less on par with the size of BERT which was also released around that time too.
+
+GPT-2, which came out one year later, was trained on a much larger data set called **WebText**. This text was gathered from the publicly addressable web, and also was the first time that we saw a Transformer model released in different sizes.
+Starting with the 117 million parameter model with the same number of parameters as the original GPT all the way up to the 1.5 billion extra large version of GPT-2.
+GPT-3, which was released in 2020, was pre-trained on an even newer and larger data set **WebText2**, which incorporated 45 terabytes of text.
