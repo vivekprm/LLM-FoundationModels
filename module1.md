@@ -322,3 +322,14 @@ Each of these have different pros and cons and depending on the task that you wa
 If you're just looking at things like sentiment analysis or if you need to control the data or if you have a very small amount of compute you may be better suited at utilizing something like **BERT or T5** instead. take some time when you can to have a look at the different pros and cons for each of these different Large Language
 model frameworks to see which one is best for you.
 
+# Module 1 Resources
+- Module 1 [Slides and Notebooks](https://courses.edx.org/courses/course-v1:Databricks+LLM102x+2T2023/220b5575679e43239e83276dd86a541f/?_gl=1*vpgslp*_ga*MzYwMzI2Mjk4LjE2OTE1MjAzNjA.*_ga_D3KS4KMDT0*MTY5MTY4NjQ2OC43LjEuMTY5MTY4NjQ3MC41OC4wLjA)
+- [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
+- [Natural Language Processing with Transformers](https://www.oreilly.com/library/view/natural-language-processing/9781098136789/)
+- [A Mathematical View of Attention Models in Deep Learning](https://people.tamu.edu/~sji/classes/attn.pdf)
+- [What Is a Transformer Model?](https://blogs.nvidia.com/blog/2022/03/25/what-is-a-transformer-model/)
+- [Introducing MPT-7B: A New Standard for Open-Source, Commercially Usable LLMs](https://www.mosaicml.com/blog/mpt-7b)
+- [Improving Language Understanding by Generative Pre-Training](https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf)
+- [BookCorpus](https://en.wikipedia.org/wiki/BookCorpus) and [Gpt-2-output-dataset (webText)](https://github.com/openai/gpt-2-output-dataset)
+- [Open LLM Leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard)
+- [Large Language Models and the Reverse Turing Test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10177005/)
