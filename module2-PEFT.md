@@ -250,11 +250,11 @@ On the right-hand side, you can see a group of researchers have also manually co
 - [Interpretable Soft Prompts](https://learnprompting.org/docs/trainable/discretized)
   - By performing prompt tuning on initialized text – e.g. “classify this sentiment” – the resulting prompt embeddings might become nonsensical. But this nonsensical prompt can give better performance on the task
 - [Continual Domain-Adaptive Pre-training](https://arxiv.org/pdf/2302.03241.pdf)
-Foundation Models for Decision Making: Problems, Methods, and Opportunities 
-“Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors
-Using a simple compressor, like gzip with a KNN classifier, can outperform BERT on text classification. The method also performs well in few-shot settings.
-The False Promise of Imitating Proprietary LLMs
-Ahead of AI: LLM Tuning & Dataset Perspectives 
-How Far Can Camels Go? Exploring the State of Instruction Tuning on Open Resources 
-AlpaGasus: Training A Better Alpaca with Fewer Data 
-More data for fine-tuning LLMs is not necessarily better. AlpaGasus used 9k high-quality data out of the original 52k Alpaca dataset and it performed the original Alpaca-7B model.
+- [Foundation Models for Decision Making: Problems, Methods, and Opportunities](https://arxiv.org/pdf/2303.04129.pdf) 
+- [“Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors](https://aclanthology.org/2023.findings-acl.426/?utm_source=substack&utm_medium=email)
+  - Using a simple compressor, like gzip with a KNN classifier, can outperform BERT on text classification. The method also performs well in few-shot settings.
+- [The False Promise of Imitating Proprietary LLMs](https://arxiv.org/abs/2305.15717)
+- [Ahead of AI: LLM Tuning & Dataset Perspectives](https://magazine.sebastianraschka.com/p/ahead-of-ai-9-llm-tuning-and-dataset) 
+- [How Far Can Camels Go? Exploring the State of Instruction Tuning on Open Resources](https://arxiv.org/pdf/2306.04751.pdf)
+- [AlpaGasus: Training A Better Alpaca with Fewer Data](https://arxiv.org/abs/2307.08701)
+  - More data for fine-tuning LLMs is not necessarily better. AlpaGasus used 9k high-quality data out of the original 52k Alpaca dataset and it performed the original Alpaca-7B model.
