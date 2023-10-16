@@ -178,3 +178,10 @@ In particular, talking about GPU memory, the general guide that if you double th
 Note that this is for serving, for training, you'll actually need even more. If we look at the options that we have available at the moment, for the v100s, the a10g, and the a100s that gives us a sense that we could use a 5,10,20, and maybe 40 billion parameter model for each of those as we increase the size of the RAM that's available.
 
 There are of course always going to be improvements in the technology from NVIDIA, AMD, and others so that we'll continue to get better hardware such as h100s and beyond, that's able to provide more resources for us to work with. Do keep in mind that these will obviously come with a price premium and the availability for GPUs is still quite difficult.
+
+# Module 3 Resources
+- Module 3 [Slides & Notebooks](https://courses.edx.org/courses/course-v1:Databricks+LLM102x+2T2023/220b5575679e43239e83276dd86a541f/?_gl=1*vpgslp*_ga*MzYwMzI2Mjk4LjE2OTE1MjAzNjA.*_ga_D3KS4KMDT0*MTY5MTY4NjQ2OC43LjEuMTY5MTY4NjQ3MC41OC4wLjA)
+- [We’re getting a better idea of AI’s true carbon footprint](https://www.technologyreview.com/2022/11/14/1063192/were-getting-a-better-idea-of-ais-true-carbon-footprint/)
+- [ESTIMATING THE CARBON FOOTPRINT OF BLOOM, A 176B PARAMETER LANGUAGE MODEL](https://arxiv.org/pdf/2211.02001.pdf)
+- [Mosaic LLMs (Part 2): GPT-3 quality for <$500k](https://www.mosaicml.com/blog/gpt-3-quality-for-500k) and [ChatGPT and generative AI are booming, but the costs can be extraordinary](https://www.cnbc.com/2023/03/13/chatgpt-and-generative-ai-are-booming-but-at-a-very-expensive-price.html)
+- [When AI’s Large Language Models Shrink](https://spectrum.ieee.org/large-language-models-size)
