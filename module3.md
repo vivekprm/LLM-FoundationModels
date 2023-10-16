@@ -121,3 +121,39 @@ And we'll look at how we can create quantized versions of neural networks in the
 QLoRA is one of the most popular parameter efficient fine tuning methods available to date, and more innovations are being brought to the table. We've seen 8-bit, 4-bit, and even some 2-bit optimizers produced for the QLoRA approach.
 
 This is about as far as we can take quantization for the moment, as the errors that we get when we try to quantize a 100 billion parameter model tend to become too severe for the applications that we want.
+
+# Multi-LLM Inferencing: Hybrid and Ensemble-based systems
+Suppose you've already done all the optimizations that you can, or maybe you don't need to. Maybe you have the compute abilities to handle some of the multi hundred billion parameter large language models that are on offer, but you still have more data that you want to train on. Where can you go from here? 
+
+Maybe you have enough access to the large language models but you have a finite amount of budget for inference. In this section we're going to talk about how we can use multiple large language models, and go through a number of different approaches and styles of using these large language models in both inference and training. 
+
+# Mixture-of-Experts: A trillion parameters, for a fraction of the training
+Let's start with mixture of experts. The idea behind mixture of experts is that we can typically make use of multiple versions of a smaller system that is trained to perform particular tasks. This is fairly common in the realm of machine learning and deep learning as it is how ensemble methods work.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/2947ab7e-fb82-46f8-993f-7b437c76cb8f)
+
+The difference with mixture of experts is that an input is sent to a piece called a router, and the router is trained, and learns how to send one input to a different type of expert. This doesn't have to be a large language model, it can work in different types of machine learning and deep learning applications, but in this situation we're going to focus on mixture of experts in the context of large language models.
+
+When we think about where the parameters lie in large language models, **more than two-thirds of them are present in the position-wise feed forward neural networks**. These are present in each of their Transformer blocks and they add extra enrichment to the vectors after they've come out of the attention mechanism.
+
+**The switch Transformer**, which was presented by researchers from Google, leverages the fact that, by using different feed forward neural networks and training them during the training procedure, we come up with an approach where we can have multiple experts of these feed forward neural networks trained at the same time.
+
+The way that this helps us with our parameter cost, is that we could have multiple, say 100 billion parameter, feed forward networks and train them one at a time.
+This would mean that during the training process, through different samples in each batch, the router would learn which expert to send the signal to. It might send it to a couple of experts and then take some sort of aggregate of the outputs, or it might send it to just one expert.
+
+This is how we could take multiple 100B parameter models and piece them together to make one large ensemble model. This is how we could easily go from multiple 100 billion parameter Transformers all the way up to trillion and multi-trillion parameter models.
+
+More research is being conducted into how these mixture of experts approaches work, but we've seen excellent results with the switch Transformer. These still require a lot of compute resources and all of the optimizations that we've seen up till now will be useful as we dive deeper into the realm of mixture of experts.
+
+But let's say we're not worried about training per se, we're more worried about inference. Let's say you have a fixed cost budget and you're only able to interact with large language models through some API. In this case, you might look at something like an **LLM Cascade**.
+
+# LLM Cascades and FrugalGPT: Improving our resource allocation in LLM inferencing
+In The [Frugal GPT](https://arxiv.org/abs/2305.05176) paper that was released in 2023, the researchers came up with an approach where they would take a prompt and pass it first to the lowest performing model, and then look at the results of how that model thinks it performed. We have access when we output a particular token from a model into the perplexity of that result that gives us a sense of how sure these large language models are about what they just selected.
+
+If the model, which is a low quality model, at this stage is unsure or has a high value of perplexity, then we would skip the output for that one and move on to the next complex model.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/dbef02d8-e2b0-41cd-94b8-5532610c0e6e)
+
+This cascading effect of complexity and self-checking meant that Frugal GPT was able to maintain its accuracy far higher but use far less cost. Approaches like LLM Cascades and Frugal GPT are just the start of a new area of exploration for research and industrial use cases where we'll take the most of what we can with the vast array of large language models that are present in the domain.
+
+
