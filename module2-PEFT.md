@@ -178,3 +178,65 @@ Now let's talk about some of the limitations of LoRA.
   - And in fact, there is already a newer PEFT technique called [IA3](https://arxiv.org/abs/2205.05638) that improves upon LoRA that can reduce even more number of trainable parameters.
 
 # PEFT Limitations
+As trendy and as promising prompt tuning or LoRA sounds, PEFT, in general, it's not perfect. Regardless of the PEFT technique that you use, they share a lot of common limitations. So let's first look at it from the angle of model performance.
+
+## Model performance limitations
+Even though in many instances they can match the performance of full fine-tuning, it is really hard to have stable performance that can outperform full fine-tuning all the time because **PEFT can be very sensitive to hyperparameter changes**. 
+
+It is also not very clear why we choose to use PEFT where we use them currently. For example, **why do we only apply PEFT to attention weight matrices**? And perhaps, we should not give up on full-parameter fine-tuning yet. https://arxiv.org/pdf/2110.07904.pdf
+
+So far, PEFT has been focusing a lot on storage reduction, in terms of how we can reduce the storage of multiple copies of the same foundation model. But storage is only one of the pieces. There is a group of researchers that just released a [research paper](https://arxiv.org/pdf/2306.09782.pdf) in June this year. They invented a new type of optimizer called Lomo that can reduce memory footprint to only 11% of the original footprint that it requires.
+
+## Compute limitations
+The second angle that we can look at is the compute limitation. It doesn't always make serving or inference more efficient and it doesn't remove the cost or reduce the cost of storing the single copy of massive foundation model. And lastly, we still have to undergo the same time complexity of training because we require full forward and backward passes for PEFT as well.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/567e510a-b907-489c-8b7b-54d2998acd80)
+
+In the next section, which is the last section of this module, we'll be looking at some of the best practices for us to prepare data to do fine-tuning.
+
+# Data preparation best practices
+Finally, in this section, we'll wrap up with data preparation best practices, which is a prerequisite to doing any good fine-tuning. This is often the most challenging part in any ML project. How do we collect data? How do we prepare the data well?
+
+## Better models from better training data (Many newer good models use [C4](https://huggingface.co/datasets/c4) (e.g. [MPT-7B](https://www.mosaicml.com/blog/mpt-7b)))
+Hopefully, I don't need to convince you that better models come from better training data. Many high-performing LLMs that we hear a lot about these days involve a lot of intentionally curated data. For example, the MPT series and the Llama series both use an improved version of the Common Crawl data set called C4. C4 stands for **Colossal Clean Crawled Corpus**.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/1b67be5b-67d3-45e7-843f-58d965396e40)
+
+You can click on the link on this slide to learn more about [C4](https://huggingface.co/datasets/c4). [GPT-Neo](https://github.com/EleutherAI/gpt-neo) and [GPT-J](https://arankomatsuzaki.wordpress.com/2021/06/04/gpt-j/), which are the open-source alternatives to GPT-3, are trained on a data set called The Pile, which consists of 22 diverse and high-quality data sets. 
+
+GPT-J is on par with GPT-3 for zero-shot use cases and **GPT Neo is better than the Ada variant of GPT-3 for sentiment classification**.
+
+# Training data makes the biggest difference (Not necessarily the model architecture)
+Training data does make the biggest difference. If we look at another example of LM that caused quite a big whiplash in the news press, which is BloombergGPT. You will realize that Bloomberg curated its own data set of English financial documents, spanning over 40 years of data and augmented that data set with public data set.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/f76f8f18-84e2-4b04-aa49-07b2447a7674)
+
+The result is remarkable: it outperforms existing models on financial tasks.
+So now you may think to yourself: while all these models leverage a huge amount of data like billion-scale tokens, do I have enough data?
+
+- You might be surprised that some [research papers](https://arxiv.org/abs/2305.11206) demonstrate that you only need a couple hundred high-quality labeled examples. And this is from a use case study of Llama 65 billion parameter model. But when you scale up the data quantity,
+  - **You also need to make sure that your data covers the diversity of use cases that you wish to leverage your model for**.
+
+- From [OpenAI](https://platform.openai.com/docs/guides/fine-tuning), they also recommend at least a couple hundred use cases.
+  - But if you were to be able to double the data set size, you can usually lead to a linear increase in model performance.
+- So how do you get more data? Perhaps synthetic data is the way to go.
+  - You can either do a synonym replacement or rewrite.
+  - You can do some word deletion, where you remove some adverbs.
+  - Probably you can also swap word positions.
+  - And the last one might come as quite surprising to you, where we add noise intentionally, where we introduce typos in our data set.
+
+# Data preparation best practices (Quantity, diversity, and quality)
+But above all, if you want to tune your best instruction-following model, the same best practices also apply. When there's more diversity of use cases that you expect, then you need a higher quantity of data samples. But all of those samples should be of high quality.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/b646777b-3ecc-4451-b666-96205b481e7f)
+
+[OpenAI](https://platform.openai.com/docs/guides/fine-tuning) did release more tips on formatting, so feel free to click on the link referenced below this image over here. But generally, you can see that there's not really any need to provide very detailed instructions. You only need to provide your prompt, your completion and you can use different delimiters or separators to inform the model when the prompt ends and when the completion begins. But the separator shouldn't appear anywhere else.
+
+On the right-hand side, you can see a group of researchers have also manually
+compiled high-quality prompts before fine-tuning their model.
+Preparing data is definitely a non-trivial task. We need to manually verify data quality,
+remove any undesired data. including offensive and toxic content or any private or confidential
+information. Lastly, I want to call out that using LLM output as the data is not always the answer
+because these downstream models or imitation models tend to learn style, rather than the
+content that you pass into the model. And this is also consistent with another research paper
+that just came out as well, where knowledge of a model is largely learned during pre-training.
