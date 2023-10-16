@@ -39,3 +39,129 @@ Multimodal language models can also act as an agent that calls upon other tools 
 https://huggingface.co/spaces/microsoft/HuggingGPT
 
 ![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/816f3f61-ec26-46a9-ba97-6641a5f25166)
+
+# Transformers beyond text
+## Transformer: a general sequence processing tool: We can treat many things as a sequence
+The Transformer architecture is incredibly versatile. It is a general sequence processing tool and as it turns out, we can treat many things as a sequence, including an image.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/8c90ad71-bc3d-48eb-a468-873fa13f59ce)
+
+This is an image of my cat, an audio file, some music notes, video frames, even a series or a sequence of game actions, and lastly protein as well.
+
+## Cross attention bridges between modalities: Allows different modalities to influence each other
+Specifically, the cross-attention mechanism can help bridge between modalities, be it images audio text or neural time series. And in fact, this is what stable diffusion, which is a text-to-image model uses. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/3db9e793-0098-4e56-ac35-53797b6b7773)
+
+So you can see on the right image over here, we can ask [stable diffusion model](https://stability.ai/blog/stable-diffusion-announcement) to generate an image from text and that is using cross attention to bridge between text and images.
+
+# Computer vision
+Let's first look at how we can use Transformers for computer vision. How to use Transformers for computer vision has been quite well-researched ever since 2021. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/e7ee82d0-b842-433c-abdd-907b7199c585)
+
+Before then, the de facto architecture for computer vision was **convolutional neural networks**. The models included in this slide represent milestones in the field of computer vision. I won't go over every single model I've outlined here. Rather, I will focus my attention on the **Vision Transformer**, which is the first Transformer used for computer vision that has outperformed convolutional neural networks by almost four times in terms of computational efficiency and accuracy. 
+
+It then spurs on a series of research to apply Transformers to computer vision. We will also come back to zero-shot and few-shot learning in the context of computer vision and Transformers as well. But first, we need to understand how we can represent images as numbers.
+
+# We chop an image up into small pixels: A colored image is made up of Red, Blue, Green (RBG) levels
+When we buy a new phone or a new camera, a detail we might care about is the camera resolution, which is the number of pixels in a photo, usually denoted in megapixels. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/b13b3217-dd1f-4fdb-a754-efc7b326e66c)
+
+We can chop an image up into many many small pixels and each pixel will contain information on the primary color composition, namely how much blue, how much green, how much red you are seeing in the image. So you can see in the image in the center over here, for each pixel, we see that there is a HEX code and also the RGB levels, which is what we commonly pass in to neural networks and the pixel values can range anywhere from 0 to 256.
+
+## Colored images are 3-D tensors: Grayscale images are 2-D tensors: all 3 channels have the same value
+As it turns out, **colored images can be represented as tensors**. In text processing, we typically represent our text embeddings in the **matrix form, which is a 2D tensor**. For colored images, they are 3D tensors. **The third dimension is the number of channels, representing red, green, and blue**.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/b0017cdd-4477-4849-817a-2d65969cc93f)
+
+**Grayscale images can be 3D tensors too, but since all three channels share the same value, we can represent them as 2D tensors**. This is why we often use grayscale images in large-scale image processing models because they require much less space.
+
+# Initial idea: Turn pixels into a sequence: Use self-attention to predict the next pixel, instead of word token
+The initial intuition for pixel processing is to simply turn them into a sequence. We can use the sequence of pixels in both autoregressive context or the masked modeling context like BERT. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/fa0d9d05-9f5b-4534-b1e7-eecc3cd896d9)
+
+But instead of predicting the next word token, **we use self-attention to predict the next pixel**. But there are two limitations:
+- first, it's that we lose the vertical spatial relationship between the pixels and this is not hard to see because now when we flatten these pixels into a single sequence from left to right we no longer know if this gray box over a gray pixel over here is directly above the olive green pixel.
+
+# Initial idea: Turn pixels into a sequence: Use self-attention to predict the next pixel, instead of word token
+- Secondly, this method of using self-attention incurs really high complexity, O(N^2), because we need to calculate the complexity of each pixel with respect to all other pixels. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/c6f4033f-b97e-4105-8a50-c434149e2677)
+
+Even in a low-resolution image like (256 x 256), we will have over 65k calculations if you take 256^2 across from left to right but we also need to replicate that from top to bottom as well.
+
+So for (256 x 256) image, we would have 10 to the power of 9 calculations for a single attention layer. You can imagine how much more computational resources we need when we have an even higher resolution image than (256 x 256). So this approach is not viable.
+
+# Vision Transformer (ViT): Computes attention on patches of images: image-to-patch embeddings
+Here comes **Vision Transformers**. Let's now cover the terminology first.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/35785125-1ed9-4555-b69f-a46a8702225e)
+
+Vision Transformer **represents an input image as a series of image patches**. I hope my cat, Pearl, here doesn't mind I've chopped her up into 16, into 16 different pieces over here. In NLP, we call these patches, the individual patches that you are seeing as **words** or **subword tokens** right.
+
+But for Vision Transformer, it splits an image up into (16 x 16) patches here. But in this image, I'm only chopping my cat up into (4 x 4) pieces. So when you go from left to right, you can imagine that there are 16 patch. And within each patch, there are multiple pixels.
+
+This is why the [Vision Transformer paper](https://arxiv.org/pdf/2010.11929.pdf) is titled "An image is worth 16 times 16 words. So Vision Transformer splits a large image up into a sequence of patches, just like you are seeing here. And **each patch has a dimension of 3, which is number of channels x Pixel number of pixels and number of pixels**.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/ec90bccb-c4f9-4ead-a768-a944cb2dfea3)
+
+After building the image patches, ViT then uses a linear projection layer to match the image patch into a D-dimensional vector. This D dimension of vector outputs are called **patch embeddings**.
+
+Just like similar words should occur in a similar embedding space, similar image patches should also be patched to similar patch embedding space as well. So you can imagine that there is an embedding space over here, where we're mapping different patch embeddings onto that space.
+
+But if you recall from the module, the first module in this course, we learned that Transformers do not have any default ordering mechanism, but we need to enable the model to somehow know or infer the order of or the position of the patches. Therefore, ViT adds positional embeddings. After adding the positional embeddings, the patch embeddings are now complete.
+
+Now here is where we refer to something that we learned about BERT. In BERT, a feature that's introduced to Transformers is the use of this token: the CLS token, which stands for classification token. This token is a special token because it actually doesn't represent an actual token. It begins with a blank slate so the Transformer will be forced to learn to encode a general representation of the entire sequence into that embedding. So ViT also uses the same logic by adding this CLS token, otherwise also known as learnable embedding.
+
+So the output of this learnable embedding would then be used as an input to the classifier so that the classifier can learn to make accurate predictions later. So as you can see over here, we're now passing this entire sequence as an input to a standard Transformer encoder.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/d5d8dad0-20e9-4f52-88ba-25b599cbc395)
+
+Then we pre-train the model with image labels from ImageNet data set, which is what ViT is using. At the very end, the output of the last Transformer block goes through
+a classification head, which then gives us an image class prediction. That is how ViT works.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/b6135c60-1ae8-4771-98c5-e98f0cbd9f6d)
+
+# ViT only outperforms ResNets on larger datasets: More computationally efficient than ResNet
+We find that ViT only outperforms ResNets, which is another popular convolutional network-based neural network for computer vision on larger data sets. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/52f214d8-8fb7-41ad-bee7-30789cdf9f34)
+
+So you can see that, for ImageNet alone, when the image data set is smaller, ViT performs worse. But on larger data set, ViT outperforms ResNets. Something to note though, is that **ViT is much more computationally efficient to train than ResNet**. In fact, it is four times faster than ResNet to train.
+
+# Many other vision-text models: Not necessarily revolutionary, but an evolution in computer vision research
+There are many many other follow-ups to this ViT research using attention mechanism for computer vision. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/8125c34a-9356-4b72-bdfc-3c189e864d45)
+
+One of them is called **[SwinTransformer](https://arxiv.org/abs/2103.14030)** and the next one is called **[MLP-mixer](https://arxiv.org/abs/2105.01601)**. Granted MLP mixer is actually not a Transformer nor CNN, but it inspires many concurrent papers and follow-ups based on the findings from this paper. 
+
+So if you are interested about what MLP mixer is doing, definitely check out their paper. I also wanted to mention that Vision Transformers are an evolution, not necessarily a revolution.
+According to this Professor of Computer Science at UMichigan – his name is **Justin Johnson** – he said that we can fundamentally solve the same problems using convolutional neural networks but the main benefit with using attention probably comes down to speed because** matrix multiplication is much more hardware friendly than calculating convolution**. So ViT with the same floating point operations as convolutional networks can train and run much faster.
+
+# Audio
+## Audio signals are 2-dim spectrograms: We create embedding vectors for each t-min audio frame
+Now let's take a look at audio. Audio can be represented as a function of frequency and time. The same idea applies to audio as well, where we can create embedding vectors for each fixed length of audio frame. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/db8cb4fb-57b2-4642-8ef5-fba8962ca508)
+
+So you can see that as I go from left to right, this tells me the length of the audio and each column will represent the length of each audio frame, so this could be every three seconds, every six seconds, every one minute, and so on.
+
+## Audio is usually much longer than text length: Need to apply convolution layers with large strides to reduce dimensions
+**Since now we can simply represent audio as a sequence, therefore an embedding vector, we can also leverage the Transformer architecture**. But what you will find is that audio usually is much longer than text length, so what you see on this slide should look 90 percent or even higher more familiar to you because it's basically the original encoder and decoder architecture.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/eadd5030-8ac2-49ac-9644-8068fa093b8c)
+
+**But it has the addition of convolutional neural network layers after the input layers to reduce the audio input dimensions**. So this is a **[Speech Transformer](https://ieeexplore.ieee.org/document/8462506)**. The authors of this paper also played with using optional modules like adding ResNet or long short-term memory networks (LSTMs) to further process the inputs before passing them to the Transformer encoder block.
+
+# Few multi-modal advances: Also much harder: emotion, acoustics, tone, speed, speaker identification
+Compared to computer vision, there are much fewer multimodal advances. For audio, the models displayed on this slide are all Transformers. But for a long time, prior to 2019, audio processing models did not use Transformer architectures.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/768ff822-da13-422d-af2b-af577f69c359)
+
+Most of these models that you see here in fact only focus on either text-to-speech, speech-to-text, or speech-to-speech and this is perhaps not surprising. Because it is hard enough to process audio-only data and extract all the information available, you know, things like emotion, acoustics, tone, speed, how to identify who is speaking, etc.
+
+And the only model that seems to combine multi-modality is [Data2Vec](https://ai.meta.com/blog/the-first-high-performance-self-supervised-algorithm-that-works-for-speech-vision-and-text/) model released by Meta just last year. The other main challenge with producing such models is that it's much harder to procure high-quality multi-modal data, compared to just text data alone or image data alone. So that's what we're going to discuss in the next section: what do training data for multi-modal models actually look like?
