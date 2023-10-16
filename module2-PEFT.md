@@ -242,19 +242,14 @@ On the right-hand side, you can see a group of researchers have also manually co
 - Fine-tuning data quality and diversity matters a lot
 
 # Module 2 Resource
-- Module 2 Slides and Notebooks
-What’s in Colossal Clean Common Crawl (C4) dataset
-LaMDA: Language Models for Dialog Applications 
-
-LaMDA is a family of dialog models. The authors found fine-tuning the model with a classifier with some crowdsourced annotated data can improve model safety
-
-Gorilla: Large Language Model Connected with Massive APIs
-
-Interpretable Soft Prompts
-
-By performing prompt tuning on initialized text – e.g. “classify this sentiment” – the resulting prompt embeddings might become nonsensical. But this nonsensical prompt can give better performance on the task
-
-Continual Domain-Adaptive Pre-training
+- Module 2 [Slides and Notebooks](https://courses.edx.org/courses/course-v1:Databricks+LLM102x+2T2023/220b5575679e43239e83276dd86a541f/?_gl=1*vpgslp*_ga*MzYwMzI2Mjk4LjE2OTE1MjAzNjA.*_ga_D3KS4KMDT0*MTY5MTY4NjQ2OC43LjEuMTY5MTY4NjQ3MC41OC4wLjA)
+- [What’s in Colossal Clean Common Crawl (C4) dataset](https://www.washingtonpost.com/technology/interactive/2023/ai-chatbot-learning/)
+- [LaMDA: Language Models for Dialog Applications ](https://arxiv.org/abs/2201.08239)
+  - LaMDA is a family of dialog models. The authors found fine-tuning the model with a classifier with some crowdsourced annotated data can improve model safety
+- [Gorilla: Large Language Model Connected with Massive APIs](https://gorilla.cs.berkeley.edu/)
+- [Interpretable Soft Prompts](https://learnprompting.org/docs/trainable/discretized)
+  - By performing prompt tuning on initialized text – e.g. “classify this sentiment” – the resulting prompt embeddings might become nonsensical. But this nonsensical prompt can give better performance on the task
+- [Continual Domain-Adaptive Pre-training](https://arxiv.org/pdf/2302.03241.pdf)
 Foundation Models for Decision Making: Problems, Methods, and Opportunities 
 “Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors
 Using a simple compressor, like gzip with a KNN classifier, can outperform BERT on text classification. The method also performs well in few-shot settings.
