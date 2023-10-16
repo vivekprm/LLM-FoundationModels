@@ -156,4 +156,25 @@ If the model, which is a low quality model, at this stage is unsure or has a hig
 
 This cascading effect of complexity and self-checking meant that Frugal GPT was able to maintain its accuracy far higher but use far less cost. Approaches like LLM Cascades and Frugal GPT are just the start of a new area of exploration for research and industrial use cases where we'll take the most of what we can with the vast array of large language models that are present in the domain.
 
+# Current Best Practices: If you want to build now, do it right
+Now that we've seen a lot of the optimizations and improvements that you can make for both training and deployment, let's put everything together and discuss some of your options now if you want to get into the realm of LLMs either for training or just for inference.
 
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/b5af008f-2fb6-4bec-8dc7-6eda099f6c99)
+
+As a list of best practices if we're trying to train something from scratch
+- We'd recommend making sure that you incorporate ALiBi, so you can have very large context lengths, much larger than what you train on.
+- That you'd leverage **FlashAttention**, so that you don't have to overwhelm the SRAM of your GPU when you calculate attention and allow for much larger context lengths to be used.
+- And also leverage grouped query attention, so you can save on the amount of compute resources that you have and the number of parameters that you would need for your attention mechanism.
+- Depending on your application you might also be interested in pursuing a mixture of experts approach, if you want to have truly vast scales for your large language model.
+
+If you're just focusing on fine tuning and inferencing then you're also going to want to:
+- Leverage tools like LoRA or quantized LoRA.
+- And Frugal GPT and LLM Cascades if you're interested in how to minimize the amount of cost for the particular budget that you have for inferencing.
+
+There's also been some fantastic work by the community to have a look at some numbers that every LLM developer should know. This work was collected by Ray with any
+scale and includes some excellent pieces of wisdom.
+In particular, talking about GPU memory, the general guide that if you double the amount of parameters, that gives you a sense of your GPU memory requirements. That is to say that **if you have a 7 billion parameter model, then you're going to want something like a 14 Gigabyte capacity for the graphics RAM for your GPU**.
+
+Note that this is for serving, for training, you'll actually need even more. If we look at the options that we have available at the moment, for the v100s, the a10g, and the a100s that gives us a sense that we could use a 5,10,20, and maybe 40 billion parameter model for each of those as we increase the size of the RAM that's available.
+
+There are of course always going to be improvements in the technology from NVIDIA, AMD, and others so that we'll continue to get better hardware such as h100s and beyond, that's able to provide more resources for us to work with. Do keep in mind that these will obviously come with a price premium and the availability for GPUs is still quite difficult.
