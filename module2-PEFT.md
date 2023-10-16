@@ -232,11 +232,34 @@ But above all, if you want to tune your best instruction-following model, the sa
 
 [OpenAI](https://platform.openai.com/docs/guides/fine-tuning) did release more tips on formatting, so feel free to click on the link referenced below this image over here. But generally, you can see that there's not really any need to provide very detailed instructions. You only need to provide your prompt, your completion and you can use different delimiters or separators to inform the model when the prompt ends and when the completion begins. But the separator shouldn't appear anywhere else.
 
-On the right-hand side, you can see a group of researchers have also manually
-compiled high-quality prompts before fine-tuning their model.
-Preparing data is definitely a non-trivial task. We need to manually verify data quality,
-remove any undesired data. including offensive and toxic content or any private or confidential
-information. Lastly, I want to call out that using LLM output as the data is not always the answer
-because these downstream models or imitation models tend to learn style, rather than the
-content that you pass into the model. And this is also consistent with another research paper
-that just came out as well, where knowledge of a model is largely learned during pre-training.
+On the right-hand side, you can see a group of researchers have also manually compiled high-quality prompts before fine-tuning their model. Preparing data is definitely a non-trivial task. We need to manually verify data quality, remove any undesired data. including offensive and toxic content or any private or confidential information. Lastly, I want to call out that using LLM output as the data is not always the answer because these downstream models or imitation models tend to learn style, rather than the content that you pass into the model. And this is also consistent with another [research paper](https://arxiv.org/abs/2305.11206) that just came out as well, where knowledge of a model is largely learned during pre-training.
+
+# Module Summary (Efficient Fine-Tuning - What have we learned?)
+- Fine-tuning gives the best results, but can be computationally expensive
+- Parameter-efficient fine-tuning reduces # of trainable parameters
+- Prompt tuning allows virtual prompts to be learned automatically
+- LoRA decomposes the weight change matrix into lower-rank matrices
+- Fine-tuning data quality and diversity matters a lot
+
+# Module 2 Resource
+- Module 2 Slides and Notebooks
+What’s in Colossal Clean Common Crawl (C4) dataset
+LaMDA: Language Models for Dialog Applications 
+
+LaMDA is a family of dialog models. The authors found fine-tuning the model with a classifier with some crowdsourced annotated data can improve model safety
+
+Gorilla: Large Language Model Connected with Massive APIs
+
+Interpretable Soft Prompts
+
+By performing prompt tuning on initialized text – e.g. “classify this sentiment” – the resulting prompt embeddings might become nonsensical. But this nonsensical prompt can give better performance on the task
+
+Continual Domain-Adaptive Pre-training
+Foundation Models for Decision Making: Problems, Methods, and Opportunities 
+“Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors
+Using a simple compressor, like gzip with a KNN classifier, can outperform BERT on text classification. The method also performs well in few-shot settings.
+The False Promise of Imitating Proprietary LLMs
+Ahead of AI: LLM Tuning & Dataset Perspectives 
+How Far Can Camels Go? Exploring the State of Instruction Tuning on Open Resources 
+AlpaGasus: Training A Better Alpaca with Fewer Data 
+More data for fine-tuning LLMs is not necessarily better. AlpaGasus used 9k high-quality data out of the original 52k Alpaca dataset and it performed the original Alpaca-7B model.
