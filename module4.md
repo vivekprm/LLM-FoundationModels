@@ -203,4 +203,91 @@ It consists of 5.85 billion CLIP-filtered image text pairs; 2.3 billion of those
 Hopefully by now, you see that high-quality data curation especially for multi-modal use cases can be really time-consuming. And it's really non-trivial and yeah that is the key to producing a high-quality model.
 The next question on your mind is probably: what if we don't have that much data? or we don't have that much resources to collect good data but still want to leverage these multi-modal models? This is where few-shot learning comes in.
 
-# X-shot learning
+# X-shot learning for MLLMs
+Just like language use cases, where few-shot learning has become increasingly popular and desirable, similar research on how to perform few-shot learning for multi-modal language models is also rising on the horizon.
+
+## Computer Vision
+We'll look at computer vision first.
+
+### X-shot learning to the rescue?: Gathering multi-modal data is harder than just images or text data
+We know that gathering multi-modal data is hard. In this case, using only a few labeled examples is extremely helpful. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/9b0e05c4-07da-4ecd-bf33-d7745e4de0c6)
+
+So in this section, we'll look at one example of zero-shot learning, which is CLIP and then look at one of the most exciting multi-modal few-shot learning models, called Flamingo, released in late 2022.
+
+### Zero-shot: Contrastive Language-Image Pairing: CLIP predicts which image-text pair actually occurs in the training data
+CLIP stands for **Constrastive Language Image Pairing**. The core idea of CLIP is that it learns visual representations from the massive corpus of natural language data. CLIP trains an image encoder and a text encoder with a simple contrastive loss, which is, given a collection of image and text, predict which text-image pair actually occurs in the training data. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/ad6731ad-f62e-43df-9c2b-2e3a028a4481)
+
+So the contrastive pre-training involves maximizing the cosine similarity of the encodings on a diagonal of this (N x N) matrix since they are the actual image-text pairs. This is a pretty simple pre-training task that allows CLIP to perform well in a zero-shot setting. At test time, in the second figure, the CLIP model can be seen in action by correctly predicting the dog caption by maximizing the similarity between the word "dog" and the visual information.
+
+# CLIP performs better across settings
+What we find is that CLIP can perform better across settings. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/3c59eaa3-b688-46e7-831e-1031689a0805)
+
+You can see that in this image over here, we have ImageNet data set and we also have other maybe more realistic images drawn of a banana in different settings, whether it's a real image, where the bananas can seem to be kind of obscure in images, or whether it's just a sketch, or whether that can be intentional adversarial actions to make it hard, the model harder to identify that is a banana. But CLIP performs well across these non-ImageNet data sets.
+
+But the big limitation is that although we can predict the probability of a caption to see which text is most likely to be associated with an image, it cannot generate text. 
+
+# Few-shot, in-context: Flamingo: Unifies treatment of high-dimensional video and image inputs
+So now let's turn to another multi-modal model with few-shot capabilities, called **[Flamingo](https://www.deepmind.com/blog/tackling-multiple-tasks-with-a-single-visual-language-model)**, released by DeepMind. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/3eea92c0-828d-4798-951f-8e046e26bb5e)
+
+The Flamingo models are a family of visual language models that can take in both input visual data interleaved with text and produce free-form text as the output. 
+The second highlight is it uses a **Perceiver Resampler**. This perceiver resampler receive **spatio-temporal** features from the vision encoder and outputs a fixed size set of visual tokens. And then these visual tokens would be used to condition the frozen language model using freshly initialized cross-attention layers that are interleaved between the pre-trained language model layers. So these layers will offer the language model a way to incorporate visual information for the next token prediction task. So let's look at it in more detail. 
+
+# Flamingo bridges vision and language models: Vision encoder similar to CLIP + Chinchilla (Language) accept interleaved inputs
+Keep in mind that the goal, the first goal of these authors is to leverage a pre-trained language model so that they don't have to spend more time or compute on training a large language model from scratch. Specifically, they used a model called Chinchilla, which was also introduced by DeepMind. This allows the Flamingo model to have strong generative language abilities and access to a large amount of pre-trained language knowledge. The role of vision model is to extract rich semantic spatial features from the given images and videos.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/effe19f8-374b-4f9b-9c0d-b696abc39d96)
+
+The second goal of Flamingo is to bridge vision and language models harmoniously. So for that, the authors freeze the weights of these models and link them via two learnable architectures.
+
+An important aspect of the Flamingo models is that they can model the likelihood of text_y interleaved with a sequence of preceding images or videos and also preceding text tokens as well.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/b5832c80-335e-4969-b7de-c8945d47c9a6)
+
+So this architecture can enable a wide range of tasks, including open-ended tasks like visual question answering or captioning and also close-ended tasks, like classification.
+
+# Perceiver resampler outputs fixed-sized tokens
+Let's take another closer look at the perceiver resampler.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/293afb8e-e45d-4372-8b5e-3c73c750395f)
+
+The perceiver resampler module maps a variable size of spatio visual, spatio-temporal visual features coming out of the vision encoder and then it outputs to a fixed number of output tokens.
+
+The key and value that you see here are simply a concatenation of the spatiotemporal visual features and the queries contain a set of learned latent vectors. On the other end of the resampler is a fixed number of output tokens and in this case, we see five of them.
+
+# Outperforms 6 out of 16 SOTA fine-tuned models: Curated 3 high-quality datasets: LTIP (Long Text-Image Pairs), VTP (Video-Text Pairs), and MultiModal Massive Web (M3W)
+Flamingo beats all previous few-shot learning approaches when given as few as 4 examples of tasks. In fact, it even outperforms 6 out of 16 as state-of-the-art fine-tuned models.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/61908955-bbea-45b7-b7ce-a1f310290a70)
+
+A big factor that contributes to this success is that the Flamingo researchers curated three high-quality data sets, reinforcing the message from the previous module that data does make a lot of difference in the model output quality.
+
+# Qualitative inspection on selected samples: Supported input format: (image, text) or (video, text) + visual query
+So, let's take a look at some of the selected samples on Flamingo outputs. First you can see that when we are given an input prompt, when we give an input prompt to the
+Flamingo model, it can infer what is in the object and also do some reasoning around those objects.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/e27dc2b2-9df5-4284-9608-447040d33048)
+
+Secondly, you can take in image and text and then we can ask a query and then it will conform to the response that it has seen before and generally a response is similar to the previous response format. 
+
+The third one that you see over here is a series of video frames and we can ask Flamingo a question about the video frames. 
+
+# Audio
+## Zero-shot: OpenAI’s Whisper: Encoder-decoder transformer: splits input audio into 30-second frames
+Now that we have discussed few-shot learning multi-modal models for computer vision, what about audio? Again, the most commonly cited zero-shot example for audio is OpenAI's **Whisper model**. Unsurprisingly, it uses encoder-decoder Transformer architecture.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/89c1a92f-99dc-4ec4-b0e2-b1711b71c939)
+
+It also uses convolutional neural network to reduce the input audio dimensions as well. And in Whisper's case, the input audio is split into 30-second frames. 
+
+# Whisper matches human robustness: Without fine-tuning on benchmark data
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/5720d60c-1a40-4ff2-9c3b-f657f88524a6)
+
+The researchers compared Whisper to other models that have been fine-tuned on [LibriSpeech](http://www.openslr.org/12), which contains a thousand hours of read English speech. They find that Whisper has much lower average word error rate and can even match human robustness in a zero-shot setting.
