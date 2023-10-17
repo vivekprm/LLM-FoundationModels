@@ -389,20 +389,19 @@ Lastly, who knows maybe 10 years from now, we might all have a robot in every ho
 - More exciting and unimaginable MLLM applications are on the horizon
 
 # Module 4 Resources
-- Module 4 Slides and Notebooks
-- Enhancing CLIP with GPT-4: Harnessing Visual Descriptions as Prompts
-- EfficientViT: Memory Efficient Vision Transformer with Cascaded Group Attention
-- Key-Locked Rank One Editing for Text-to-Image Personalization
+- Module 4 [Slides and Notebooks](https://courses.edx.org/courses/course-v1:Databricks+LLM102x+2T2023/220b5575679e43239e83276dd86a541f/?_gl=1*vpgslp*_ga*MzYwMzI2Mjk4LjE2OTE1MjAzNjA.*_ga_D3KS4KMDT0*MTY5MTY4NjQ2OC43LjEuMTY5MTY4NjQ3MC41OC4wLjA)
+- [Enhancing CLIP with GPT-4: Harnessing Visual Descriptions as Prompts](https://arxiv.org/pdf/2307.11661.pdf)
+- [EfficientViT: Memory Efficient Vision Transformer with Cascaded Group Attention](https://arxiv.org/abs/2305.07027)
+- [Key-Locked Rank One Editing for Text-to-Image Personalization](https://arxiv.org/pdf/2305.01644.pdf)
   - This paper describes text-to-image generation being done with a model that is 100KB in size. Maybe size isn't everything. 
-- AudioCraft by MetaAI  
+- [AudioCraft by MetaAI](https://audiocraft.metademolab.com/)  
   - MetaAI just released this code base for generative audio needs in early August 2023. It can model audio sequences and capture the long-term dependencies in the audio.
-
-- X-ray images with LLMs and vision encoders
-- Simple and Controllable Music Generation
-- High-Resolution Image Synthesis with Latent Diffusion Models
+- [X-ray images with LLMs and vision encoders](https://arxiv.org/abs/2308.01317)
+- [Simple and Controllable Music Generation](https://arxiv.org/abs/2306.05284)
+- [High-Resolution Image Synthesis with Latent Diffusion Models](https://arxiv.org/abs/2112.10752)
   - This is the original paper on Stable Diffusion.
-- The Illustrated Stable Diffusion by Jay Alammar
+- [The Illustrated Stable Diffusion by Jay Alammar](https://jalammar.github.io/illustrated-stable-diffusion/)
   - This blog post illustrates how stable diffusion model works. 
-- All are Worth Words: A ViT Backbone for Diffusion Models
+- [All are Worth Words: A ViT Backbone for Diffusion Models](https://arxiv.org/abs/2209.12152)
   - This paper describes how to add diffusion models to Vision Transformer. 
-- RLHF: Reinforcement Learning from Human Feedback by Huyen Chip
+- [RLHF: Reinforcement Learning from Human Feedback](https://huyenchip.com/2023/05/02/rlhf.html) by Huyen Chip
