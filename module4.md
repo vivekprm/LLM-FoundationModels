@@ -347,3 +347,43 @@ The authors propose a new variant of attention, which is **retention mechanism**
 **how do you have good model performance without it being too slow and vice versa?**
 
 # Emerging applications: It’s a great time to be alive
+It is indeed a very exciting time to be witnessing the emergence of previously unimaginable AI applications. .
+
+## DreamFusion: Generates 3D objects from text caption
+First up is **DreamFusion**. It can generate 3D objects from text caption. 
+
+## Make-A-Video: Generates video from text: “Cat watching TV with a remote in hand”
+In a similar vein, Meta released this Make-A-Video application where you can generate videos from text.
+
+## PaLM-E-bot: Robotics application: “bring me the rice chips from the drawer”
+We also see PaLM-E-bot, where Google has taken PaLM, which is a language model to integrate with robotics applications.
+
+## AlphaCode: generate code
+Something that is probably closer to you and me in the industry right now is using large language models to generate code. And here we have AlphaCode to solve
+the problem of the minimum number of minutes to make pizzas with n slices.
+
+## Multi-lingual models: Bactrian-X: An instruction-following model
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/72604a76-0431-41ae-b3d4-14cf45558c57)
+
+It is also really cool to see some progress finally from multi-lingual models, especially those that cover lower resource languages like Bactrian-X. 
+
+## Textless NLP: Generate speech from raw audio without text transcription
+And it's very exciting to see more and more audio applications, particularly [this](https://ai.meta.com/blog/textless-nlp-generating-expressive-speech-from-raw-audio/) textless NLP application, where you can generate speech from raw audio without any text transcription.
+This is a pretty big deal because it can reduce the challenge of not having enough low-resource language data available for training multilingual language models.
+
+# AlphaFold: Uses attention to predict protein folding
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/b0296448-56df-4f2c-9e66-ef71be13e9b2)
+
+We're also starting to see the Transformer architecture making waves in biological research because remember you can treat protein sequences as a sequence that can be easily passed into a Transformer architecture.
+
+# Gato: a generalist AI agent: Can play Atari, caption images, chat, stack blocks with a real robot arm
+Lastly, who knows maybe 10 years from now, we might all have a robot in every household that can do everything for us and with us, including playing games, chatting with us, and stacking blocks because we all need that?
+
+# Module Summary
+- MLLMs are gaining traction
+- Transformers are general sequence-processing architectures that can accept non-text sequences
+- MLLMs inherit limitations from LLMs
+- Transformers may not be the last architecture standing
+- More exciting and unimaginable MLLM applications are on the horizon
