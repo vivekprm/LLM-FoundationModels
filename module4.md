@@ -291,3 +291,59 @@ It also uses convolutional neural network to reduce the input audio dimensions a
 ![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/5720d60c-1a40-4ff2-9c3b-f657f88524a6)
 
 The researchers compared Whisper to other models that have been fine-tuned on [LibriSpeech](http://www.openslr.org/12), which contains a thousand hours of read English speech. They find that Whisper has much lower average word error rate and can even match human robustness in a zero-shot setting.
+
+# Challenges and alternative architectures
+We saw in the previous section about the potential of multi-modal language models. However, we really haven't figured it all out yet. 
+
+##  MLLMs are not immune from LLM limitations: They inherit LLM risks
+Multi-modal language models are not immune from LLM limitations. In fact, they inherit a lot of the same risks. First is hallucination. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/d820e06c-31bc-4cc3-ac4c-aea8e8b8e59a)
+
+You can see over here, on the right image, this is output by the Flamingo model, where it completely hallucinates what is in the image. For instance, when asked what
+is the message, what is on the phone screen, the Flamingo output says a text message from a friend.
+
+The other LLM limitations like prompt sensitivity or context limit and inference compute costs all apply to few-shot learning cases for multi-modal language models as well. Unsurprisingly, it also inherits the same concerns for bias and also toxicity. 
+
+For instance, this is one of the latest examples that we see on the internet, where an Asian woman asks a model to make a photo more professional but it made her photo more white. And what is interesting is that this model that the company has used, uses fine-tuned Stable Diffusion model and basically uses the best possible open-source text image data set out there, which is **LAION**, so it's very likely that this problem is not unique to this particular company.
+
+And of course, we also have all sorts of copyright issues as well. Just like for LAION, they don't claim any ownership over their copyrighted images. A similar concern or question also arises for Reddit as well. Since we have been using Reddit data set to train a lot of large language models and back in March or April, they also post this question, that they want to get paid for helping to teach big AI systems.
+
+# MLLMs can lack common sense (like LLMs)
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/04b7cc17-8b63-438f-98a4-33a269725c09)
+
+Multi-modal language models can also lack common sense as well, where we ask models to generate some image based on text, the output can be in completely nonsensical.
+And you can also see that we see the same problem with LLMs as well when we ask GPT-3 to complete this prompt, something about cranberry juice but you have a bad cold but now GPT-3 says that you should drink it but you will be dead.
+
+# Attention may not be forever What may remain or rise?
+So what's the next thing that we'll build to improve upon our existing models? It's possible that a lot of these challenges will be really hard to resolve and might never go away but they are alternative architectures that we can consider other than the attention mechanism. Attention and particularly self-attention has been a focal point of the field in NLP, of NLP, and even for the field of computer vision. But it looks like there are actually other existing or emerging promising contender architectures. 
+
+I won't cover the nitty-gritty about all of the architectures. My goal here is to bring them into your attention because who knows what might stick?
+So first let's talk about what might remain and become an integral part of every application.
+
+# Reinforcement learning with human feedback: Human feedback trains the reward model (LM). KL loss ensures minimal divergence from the original LLM. Proximal Policy Optimization (PPO) updates the LLM.
+It is none other than RLHF, which stands for reinforcement learning with human feedback. No matter how good models get, perhaps the best way to build a reliable model in production is to always involve humans in the loop. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/d3438a70-2221-4194-9cfd-dc988605c1e5)
+
+Here, the human feedback is used to train the reward model and the reward model is typically another language model that outputs a label or a ranking or score that is preferred by a human. On the other hand, there is also KL loss to ensure that the fine-tuned model doesn't diverge too much from the original pre-trained model.
+So this reward model would encode human preference and assigns a quality label to the model output.
+
+Finally, the **proximal policy optimization**, abbreviated as PPO. The algorithm will update the pre-trained large language model based on the reward signal. This is a really huge topic on its own so I encourage you to read about this topic in your own time.
+
+# Hyena Hierarchy: Convolutional neural networks are making a comeback?
+Now let's talk about the possible next "in" architecture. It's called **Hyena Hierarchy**.
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/59cff5d3-c61e-4a47-b5c4-898a3f1da97f)
+
+It uses convolutional neural networks rather than Transformers or attention mechanism. And the researchers found that it makes a pretty good few-shot model for languages and it also matches the performance of Vision Transformers so maybe CNNs will be making a comeback.
+
+# Retentive Networks: A new attention variant: a retention mechanism to connect recurrence and attention, without compromising performance
+The second architecture that has gained quite a bit of coverage in NLP newsletters these days is **retentive networks**. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/980e4b23-82b0-4f56-a424-9f0c5ba3eee9)
+
+The authors propose a new variant of attention, which is **retention mechanism**. This retention mechanism can connect both recurrence and attention. But what is special about this mechanism is that it is able to achieve higher computational efficiency without compromising model performance. And this is typically a really tough challenge to crack:
+**how do you have good model performance without it being too slow and vice versa?**
+
+# Emerging applications: It’s a great time to be alive
