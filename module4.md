@@ -165,3 +165,42 @@ Compared to computer vision, there are much fewer multimodal advances. For audio
 Most of these models that you see here in fact only focus on either text-to-speech, speech-to-text, or speech-to-speech and this is perhaps not surprising. Because it is hard enough to process audio-only data and extract all the information available, you know, things like emotion, acoustics, tone, speed, how to identify who is speaking, etc.
 
 And the only model that seems to combine multi-modality is [Data2Vec](https://ai.meta.com/blog/the-first-high-performance-self-supervised-algorithm-that-works-for-speech-vision-and-text/) model released by Meta just last year. The other main challenge with producing such models is that it's much harder to procure high-quality multi-modal data, compared to just text data alone or image data alone. So that's what we're going to discuss in the next section: what do training data for multi-modal models actually look like?
+
+# Training Data for MLLMs
+## Hand-crafted training data: Text-audio or text-video data is much harder to procure
+Compared to text-to-image data and vice versa, text-to-audio or text-to-video data are much harder to collect. In fact, many researchers have to manually curate them from scratch. Here are a few examples. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/c79f293b-78f8-4385-9560-2fd5863aad19)
+
+If you look at the [second image](https://github.com/OpenGVLab/InternVideo/tree/main/Data/instruction_data) over here, we see that the annotators have to provide detailed video descriptions frame by frame, denoted by first, next, then, finally, overall. Another group of researchers use the framework F-O, F-A-M-O-S, abbreviated as **FAMOS** to describe the scenes that they see in the picture as well, so they divided up the scene description into either structured and also dense using the same framework.
+
+https://arxiv.org/pdf/2305.13903.pdf
+http://maxbain.com/webvid-dataset/
+
+# Instruction-tuned, hand-crafted data
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/14905087-8eed-4c29-b314-8d70f7242f36)
+
+The data can also look like this, where it is organized into a JSON format or a tabular format. The JSON file on the left shows a conversation exchange between a human and also a GPT model, based on a particular image ID.
+On the right, we also see similar data but organized into a tabular format. 
+
+# Instruction-tuned, model-generated data: Actually: manually design examples first, then ask model to generate more
+You might ask, why can't I ask models to generate data examples for me? 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/50311c9c-2297-4026-b01d-4c2f72b62c83)
+
+The answer is absolutely yes, but the caveat is you need to do some groundwork of providing high-quality examples first. 
+
+You can see in the left image that the researchers did a comprehensive attempt to describe a particular image or scene first, by writing caption, secondly by labeling the objects in the image. And on the right image over here, the researchers also provide several caption examples to a single image that can apply correctly. You can also see another conversation exchange that the annotators have written up. So you can see that this is the level of detail the annotators have to put into, before they can train a good model.
+
+# [LAION-5B](https://laion.ai/blog/laion-5b/): open source image-text data Original data: [Common Crawl](https://commoncrawl.org/); filtered with OpenAI’s CLIP model
+The best open-source image-text data set today is probably LAION-5B. Many of the image-text flagship models are trained on proprietary data sets. So this is the first large-scale open-source data set but is released for research purposes only. 
+
+![image](https://github.com/vivekprm/LLM-FoundationModels/assets/2403660/81db76ed-f3b6-4cfa-a152-79db46e67b2e)
+
+It consists of 5.85 billion CLIP-filtered image text pairs; 2.3 billion of those are in English and 2.2 billion of those are in other languages. There is a really important disclaimer though: the images in this data set are mostly copyrighted and LAION doesn't claim any ownership over these images.
+
+Hopefully by now, you see that high-quality data curation especially for multi-modal use cases can be really time-consuming. And it's really non-trivial and yeah that is the key to producing a high-quality model.
+The next question on your mind is probably: what if we don't have that much data? or we don't have that much resources to collect good data but still want to leverage these multi-modal models? This is where few-shot learning comes in.
+
+# X-shot learning
