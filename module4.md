@@ -387,3 +387,22 @@ Lastly, who knows maybe 10 years from now, we might all have a robot in every ho
 - MLLMs inherit limitations from LLMs
 - Transformers may not be the last architecture standing
 - More exciting and unimaginable MLLM applications are on the horizon
+
+# Module 4 Resources
+- Module 4 Slides and Notebooks
+- Enhancing CLIP with GPT-4: Harnessing Visual Descriptions as Prompts
+- EfficientViT: Memory Efficient Vision Transformer with Cascaded Group Attention
+- Key-Locked Rank One Editing for Text-to-Image Personalization
+  - This paper describes text-to-image generation being done with a model that is 100KB in size. Maybe size isn't everything. 
+- AudioCraft by MetaAI  
+  - MetaAI just released this code base for generative audio needs in early August 2023. It can model audio sequences and capture the long-term dependencies in the audio.
+
+- X-ray images with LLMs and vision encoders
+- Simple and Controllable Music Generation
+- High-Resolution Image Synthesis with Latent Diffusion Models
+  - This is the original paper on Stable Diffusion.
+- The Illustrated Stable Diffusion by Jay Alammar
+  - This blog post illustrates how stable diffusion model works. 
+- All are Worth Words: A ViT Backbone for Diffusion Models
+  - This paper describes how to add diffusion models to Vision Transformer. 
+- RLHF: Reinforcement Learning from Human Feedback by Huyen Chip
